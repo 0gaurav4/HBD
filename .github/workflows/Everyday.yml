@@ -1,0 +1,30 @@
+name: Everyday
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: 'Start the workflow immediately'
+        required: true
+
+jobs:
+  everyday_run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install fs path moment csv-parser
+
+      - name: Install Telegram dependencies
+        run: npm install node-telegram-bot-api
+
+      - name: Run Test
+        run: node Test1.js
