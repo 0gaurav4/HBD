@@ -26,5 +26,5 @@ jobs:
       - name: Install Telegram dependencies
         run: npm install node-telegram-bot-api
 
-      - name: Run Test
-        run: node Test1.js
+      - name: Run Code
+        run: node hbf.js
