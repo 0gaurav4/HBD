@@ -27,4 +27,4 @@ jobs:
         run: npm install node-telegram-bot-api
 
       - name: Run Code
-        run: node hbf.js
+        run: node hbd.js
