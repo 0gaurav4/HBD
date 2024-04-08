@@ -1,0 +1,26 @@
+const fs = require('fs');
+const csv = require('csv-parser');
+const moment = require('moment');
+
+const fileName = 'Data1.csv';
+
+const tomorrow = moment().add(1, 'days').format('DD/MM');
+
+let found = false;
+
+// read data from csv file
+fs.createReadStream(fileName)
+  .pipe(csv())
+  .on('data', (row) => {
+    const dob = row.DOB;
+    if (dob && dob.startsWith(tomorrow)) {
+      console.log('Person with birthday tomorrow:');
+      console.log(row);
+      found = true;
+    }
+  })
+  .on('end', () => {
+    if (!found) {
+      console.log(0);
+    }
+  });

@@ -1,0 +1,47 @@
+const fs = require('fs');
+const csv = require('csv-parser');
+const moment = require('moment');
+const TelegramBot = require('node-telegram-bot-api');
+
+const botToken = '7149278991:AAHC4Q5KZG46GGrn2NMKONOaVIV17Ow0oso';
+const chatId = '1295894956';
+const fileName = 'data2.csv';
+
+const tomorrow = moment().add(1, 'days').format('DD/MM');
+
+let found = false;
+let messageToSend = '';
+
+fs.createReadStream(fileName)
+  .pipe(csv())
+  .on('data', (row) => {
+    const dob = row.DOB;
+    if (dob && dob.startsWith(tomorrow)) {
+      messageToSend += `Tomorrow is ${row.Name}'s birthday\n`;
+      messageToSend += `Tag - ${row.Tag}\n`;
+      messageToSend += `DOB - ${moment(row.DOB, 'DD/MM/YYYY').format('DD MMMM YYYY')}\n`;
+      messageToSend += `Address - ${row.Address}\n`;
+      messageToSend += `Mobile_No - ${row.Mobile_No}\n`;
+      messageToSend += `Email - ${row.Email}\n\n`;
+      found = true;
+        }
+      })
+      .on('end', () => {
+    if (!found) {
+      messageToSend = 'No birthday tomorrow.';
+    }
+    
+    // Initializing the Telegram bot with polling method
+    const bot = new TelegramBot(botToken, { polling: true });
+
+    // Sending the message
+    bot.sendMessage(chatId, messageToSend)
+      .then(() => {
+        console.log('Message sent successfully');
+        // Stop polling after sending the message
+        bot.stopPolling();
+      })
+      .catch((error) => {
+        console.error('Error sending message:', error);
+      });
+  });
