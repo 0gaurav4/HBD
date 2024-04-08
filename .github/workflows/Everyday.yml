@@ -6,6 +6,8 @@ on:
       start:
         description: 'Start the workflow immediately'
         required: true
+  schedule:
+    - cron: '0 0 * * *' # Triggers at 12 am UTC every day
 
 jobs:
   everyday_run:
