@@ -23,12 +23,16 @@ function checkToday() {
     .on('data', (row) => {
       const dob = row.DOB;
       if (dob && dob.startsWith(today)) {
-        messageToSend += `Today is ${row.Name}'s birthday\n`;
-        messageToSend += `Tag - ${row.Tag}\n`;
-        messageToSend += `DOB - ${moment(row.DOB, 'DD/MM/YYYY').format('DD MMMM YYYY')}\n`;
-        messageToSend += `Address - ${row.Address}\n`;
-        messageToSend += `Mobile_No - ${row.Mobile_No}\n`;
-        messageToSend += `Email - ${row.Email}\n`;
+        messageToSend += `✨✨Today is ${row.Name}'s birthday🎊🎊\n`;
+        messageToSend += `——————————————————————\n\n`;
+        messageToSend += `🔆🔆DOB - ${moment(row.DOB, 'DD/MM/YYYY').format('DD MMMM YYYY')}\n`;
+        messageToSend += `❓❓Tag - ${row.Tag}\n`;
+        messageToSend += `——————————————————————\n`;
+        messageToSend += `——————————————————————\n\n`;
+        messageToSend += `Contact Details 📌📌\n`;
+        messageToSend += `📮📮Address - ${row.Address}\n\n`;
+        messageToSend += `📧📧Email - ${row.Email}\n`;
+        messageToSend += `📞📞Mobile_No - ${row.Mobile_No}\n`;
         photoPath = `${photoFolder}${row.Name}.jpg`;
         foundToday = true;
       }
@@ -36,7 +40,7 @@ function checkToday() {
     .on('end', () => {
       if (foundToday) {
         // Initializing the Telegram bot with polling method
-        const bot = new TelegramBot(botToken, { polling: true });
+        const bot = new TelegramBot(botToken, { polling: true, parse_mode: 'html' });
 
         // Sending the message
         bot.sendMessage(chatId, messageToSend)
@@ -44,7 +48,7 @@ function checkToday() {
             console.log('Today\'s message sent successfully');
             // Check if photo exists and send it
             if (fs.existsSync(photoPath)) {
-              bot.sendPhoto(chatId, photoPath)
+              bot.sendPhoto(chatId, photoPath, { caption: 'Birthday Person Photo', contentType: 'image/jpeg' })
                 .then(() => console.log('Photo sent successfully'))
                 .catch((error) => console.error('Error sending photo:', error));
             }
@@ -89,4 +93,3 @@ function checkTomorrow() {
 checkTomorrow();
 // Call the function to check birthdays for today
 checkToday();
-
