@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   
   schedule:
-    - cron: '0 0 * * *' # Triggers at 12 am UTC every day
+    - cron: '5 0 * * *' # Triggers at 5:35 am Indian Time every day
 
 jobs:
   everyday_run:
@@ -20,10 +20,14 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install fs path moment csv-parser
+        run: npm install fs path moment csv-parser dotenv
 
       - name: Install Telegram dependencies
-        run: npm install node-telegram-bot-api
+        run: npm install node-telegram-bot-api telegram-format
 
-      - name: Run Code
+      - name: Run Birthday Code
         run: node hbd.js
+
+      - name: Run Aniversary Code
+        run: node Ani.js
+
