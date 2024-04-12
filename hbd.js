@@ -29,6 +29,7 @@ function checkToday() {
         messageToSend += `Address - ${row.Address}\n`;
         messageToSend += `Mobile_No - ${row.Mobile_No}\n`;
         messageToSend += `Email - ${row.Email}\n`;
+        messageToSend += `Msg - ${row.Msg}\n`;
         photoPath = `${photoFolder}${row.Name}.jpg`;
         foundToday = true;
       }
