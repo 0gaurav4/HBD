@@ -31,6 +31,7 @@ function checkToday() {
         messageToSend += `📮📮Address - ${row.Address}\n\n`;
         messageToSend += `📧📧Email - ${row.Email}\n`;
         messageToSend += `📞📞Mobile_No - ${row.Mobile_No}\n`;
+        messageToSend += `✉️✉️Msg - ${row.Msg}\n`;
         foundToday = true;
       }
     })
